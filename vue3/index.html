@@ -17,10 +17,8 @@
     <script>
         // const { createApp } = Vue
 
-
         // 4.实现createAppAPI
         const createAppAPI = (render) => {
-
             return function createApp(rootComponent) {
                 const app = {
                     mount(rootContainer) {
@@ -29,8 +27,8 @@
                             tag: rootComponent
 
                         }
-                        // 渲染到根
-                        return (vnode, rootContainer)
+                        // 渲染到  rootComponent
+                        render (vnode, rootContainer)
                     }
                 }
                 return app
@@ -38,7 +36,7 @@
         }
 
         // 3.声明createRenderer
-        const createRenderer = ({ querySelector }) => {
+        const createRenderer = ({ querySelector, createElement, insert }) => {
 
             // render的实现
             const render = (vnode, container) => {
@@ -53,15 +51,15 @@
                 const vnode = rootComponent.render.call(ctx)
                 // vnode=》dom
                 const child = createElement(vnode.tag)
-                if (typeof children === "string") {
-                    child.textContent =children
+
+                if (typeof vnode.children === "string") {
+                    child.textContent = vnode.children
                 } else {
 
                 }
+                // 追加
+                insert(child, container)
             }
-
-
-
 
             // 返回的对象，就是renderer
             return {
@@ -71,14 +69,21 @@
         }
         // 2.创建renderer实例，传入参数是节点操作
         const renderer = createRenderer({
-
+            querySelector(sel) {
+                return document.querySelector(sel)
+            },
+            createElement(tag) {
+                return document.createElement(tag)
+            },
+            insert(child, parent) {
+                parent.appendChild(child)
+            }
         })
 
         // 1.声明vue.createApp
         const Vue = {
-            createApp(option) {
-
-                return renderer.createApp(option)
+            createApp(options) {
+                return renderer.createApp(options)
             }
         }
 
@@ -88,8 +93,13 @@
                     count: 0
                 }
             },
-        })
-            .mount('#app')
+            render() {
+                return {
+                    tag: 'h2',
+                    children: 'foo'
+                }
+            }
+        }).mount('#app')
     </script>
 </body>
 
