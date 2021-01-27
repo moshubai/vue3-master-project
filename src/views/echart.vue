@@ -10,10 +10,20 @@
 </template>
 
 <script>
-import { onMounted, onBeforeMount, onUnmounted, onBeforeUnmount, ref, reactive, computed, watch } from 'vue'
+import {
+  onMounted,
+  onBeforeMount,
+  onUnmounted,
+  onBeforeUnmount,
+  ref,
+  reactive,
+  computed,
+  watch,
+  createRenderer
+} from 'vue'
 
 export default {
-  name: 'About',
+  name: 'Echart',
   components: {},
   beforeCreate() {
     console.log(1)
