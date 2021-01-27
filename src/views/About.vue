@@ -47,7 +47,7 @@ export default {
       console.log(3)
     })
     onMounted(() => {
-      console.log(refsdom)
+      console.log(refsdom.value)
       console.log(4)
     })
 
@@ -58,6 +58,7 @@ export default {
       console.log(6)
     })
     const refsdom = ref(null)
+    // console.log(refsdom.value, '00-=-0')
     return { counter, countFn, objectOjb, dobCount, refsdom }
   }
 }
